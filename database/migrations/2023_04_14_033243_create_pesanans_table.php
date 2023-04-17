@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('pesanans', function (Blueprint $table) {
             $table->id();
             $table->integer('id_pelanggan');
+            $table->integer('id_request');
             $table->dateTime('tanggal_pesan');
             $table->integer('jumlah_barang');
             $table->integer('total_biaya');

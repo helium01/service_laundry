@@ -3,84 +3,55 @@
 namespace App\Http\Controllers;
 
 use App\Models\pelanggan;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PelangganController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $data=pelanggan::all();
-        //
+        $pelanggan = Pelanggan::all();
+        return response()->json([
+            'status'=>'sukses',
+            'data'=>$pelanggan
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function show($id)
     {
-        //
+        $pelanggan = Pelanggan::findOrFail($id);
+        return response()->json([
+            'status'=>'sukses',
+            'data'=>$pelanggan
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $user=User::find($request->id_user);
+        $pelanggan = Pelanggan::create([
+            'id_user'=>$request->id_user,
+            'nama_pelanggan'=>$user->name,
+            'alamat'=>$request->alamat,
+            'nomor_telepon'=>$request->nomor_telepon
+        ]);
+        return response()->json([
+            'status'=>'sukses',
+            'data'=>$pelanggan
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\pelanggan  $pelanggan
-     * @return \Illuminate\Http\Response
-     */
-    public function show(pelanggan $pelanggan)
+    public function update(Request $request, $id)
     {
-        //
+        $pelanggan = Pelanggan::findOrFail($id);
+        $pelanggan->update($request->all());
+        return response()->json($pelanggan, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\pelanggan  $pelanggan
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(pelanggan $pelanggan)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\pelanggan  $pelanggan
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, pelanggan $pelanggan)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\pelanggan  $pelanggan
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(pelanggan $pelanggan)
-    {
-        //
+        $pelanggan = Pelanggan::findOrFail($id);
+        $pelanggan->delete();
+        return response()->json(null, 204);
     }
 }

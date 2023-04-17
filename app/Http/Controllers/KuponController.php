@@ -7,100 +7,63 @@ use Illuminate\Http\Request;
 
 class KuponController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $data =kupon::all();
+        $kupons = Kupon::all();
+
         return response()->json([
-            'status'=>'sukses',
-            'data'=>$data
+            'success' => true,
+            'data' => $kupons,
         ]);
-        //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $data=kupon::create($request->all());
-        $data->save();
-        return response()->jon([
-            'status'=>'sukses',
-            'data'=>$data
+        $request->validate([
+            'kode_kupon' => 'required|string',
+            'jenis_diskon' => 'required|string',
+            'jumlah_diskon' => 'required|string',
         ]);
-        //
+
+        $kupon = Kupon::create($request->all());
+
+        return response()->json([
+            'success' => true,
+            'data' => $kupon,
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\kupon  $kupon
-     * @return \Illuminate\Http\Response
-     */
-    public function show(kupon $kupon)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\kupon  $kupon
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(kupon $kupon)
+    public function show(Kupon $kupon)
     {
         return response()->json([
-            'status'=>'ok',
-            'data'=>$kupon
+            'success' => true,
+            'data' => $kupon,
         ]);
-        //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\kupon  $kupon
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, kupon $kupon)
+    public function update(Request $request, Kupon $kupon)
     {
-        $kupon->upddate($request->all());
-        return response()->json([
-            'status'=>'data berhasil di update',
-            'data'=>$kupon,
+        $request->validate([
+            'kode_kupon' => 'required|string',
+            'jenis_diskon' => 'required|string',
+            'jumlah_diskon' => 'required|string',
+            'tanggal_kadaluarsa' => 'required|date_format:Y-m-d H:i:s',
         ]);
-        //
+
+        $kupon->update($request->all());
+
+        return response()->json([
+            'success' => true,
+            'data' => $kupon,
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\kupon  $kupon
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(kupon $kupon)
+    public function destroy(Kupon $kupon)
     {
         $kupon->delete();
+
         return response()->json([
-            'status'=>'data berhasil di hapus',
-            
-        ]);  
-        //
+            'success' => true,
+        ]);
     }
 }

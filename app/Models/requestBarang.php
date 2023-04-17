@@ -9,6 +9,6 @@ class requestBarang extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id_user', 'status', 'jenis_servis', 'jenis_paket', 'jumlah_barang'
+        'id_user', 'status', 'jenis_servis', 'jenis_paket', 'jumlah_barang','kode_kupon','latitude','longitude'
     ];
 }

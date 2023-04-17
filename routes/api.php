@@ -4,7 +4,9 @@ use App\Http\Controllers\api\midtranscontrol;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\PelangganController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\KuponController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,6 +22,8 @@ Auth::routes();
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('pelanggans', PelangganController::class);
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
@@ -37,3 +41,14 @@ Route::post('/request_barang', 'App\Http\Controllers\RequestBarangController@sto
 Route::get('/request_barang/{id}', 'App\Http\Controllers\RequestBarangController@show');
 Route::put('/request_barang/{id}', 'App\Http\Controllers\RequestBarangController@update');
 Route::delete('/request_barang/{id}', 'App\Http\Controllers\RequestBarangController@destroy');
+Route::get('/request_barang/valid/{id}', 'App\Http\Controllers\RequestBarangController@valid');
+Route::get('/pembayaran/{id}', 'App\Http\Controllers\api\midtranscontrol@postmidtrans');
+
+Route::get('kupon', [KuponController::class, 'index']);
+Route::post('kupon', [KuponController::class, 'store']);
+Route::get('kupon/{kupon}', [KuponController::class, 'show']);
+Route::put('kupon/{kupon}', [KuponController::class, 'update']);
+Route::delete('kupon/{kupon}', [KuponController::class, 'destroy']);
+
+
+
