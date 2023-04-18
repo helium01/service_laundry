@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\midtranscontrol;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,4 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+route::get('/server',[midtranscontrol::class,'server']);
